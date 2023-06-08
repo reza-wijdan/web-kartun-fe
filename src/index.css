@@ -1,6 +1,4 @@
-* {
-  color: white !important;
-}
+
 
 
 .navbar-home {
@@ -15,4 +13,12 @@
 
 .card:hover {
   transform: scale(1.05);
+}
+
+.fs-7 {
+  font-size: 12px !important;
+}
+
+.scroll-card {
+  overflow-x: scroll !important;
 }
