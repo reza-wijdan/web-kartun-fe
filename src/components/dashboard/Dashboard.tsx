@@ -17,10 +17,10 @@ class Dashboard extends React.Component <any, any> {
 
     getMovie() {
         Movie.getMovie().then((result:any) => {
-            const component = result.data.map((el: { title: any; imagePath:any }) => {
+            const component = result.data.map((el: { title: any; imagePath:any, id: any }) => {
                 return (
                     <div className="col m-0 p-0">
-                        <CardMovie title={el.title} img={el.imagePath} />
+                        <CardMovie title={el.title} img={el.imagePath} data={el} />
                     </div>
                 )
             })

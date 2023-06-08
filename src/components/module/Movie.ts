@@ -11,6 +11,22 @@ class Movie {
             })
         })
     }
+
+    static async getMovieById(data: {id: any}) {
+        return new Promise((res, rej) => {
+            axios({
+                method: "POST",
+                url: `/detailMovie`,
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "multipart/form-data"           
+                },
+                data: data
+            }).then((result) => {
+                res({response: true, data: result.data});
+            })
+        })
+    }
 }
 
 export default Movie;
