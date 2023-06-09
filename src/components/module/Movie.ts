@@ -27,6 +27,22 @@ class Movie {
             })
         })
     }
+
+    static async movieSearch(query:  any) {
+        return new Promise((res, rej) => {
+            axios({
+                method: "GET",
+                url: `/movie/search?q=${query}`,
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "multipart/form-data"           
+                },
+                data: JSON.stringify({query})
+            }).then((result) => {
+                res({response: true, data: result.data})
+            })
+        })
+    }
 }
 
 export default Movie;

@@ -3,6 +3,9 @@ import React from "react";
 class Navbar extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
+        this.state = {
+            keyword: "",
+        }
     }
 
     render(): React.ReactNode {
@@ -21,8 +24,8 @@ class Navbar extends React.Component<any, any> {
                                 </li>
                             </ul>
                             <form className="d-flex" role="search">
-                                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                                <button className="btn btn-outline-success" type="submit">Search</button>
+                                <input className="form-control me-2" type="text" placeholder="Search" aria-label="Search" value={this.props.title} onChange={this.props.handleChange} />
+                                <button className="btn btn-outline-success" onClick={this.props.cari} type="submit">Search</button>
                             </form>
                         </div>
                     </div>
