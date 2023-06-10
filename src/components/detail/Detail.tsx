@@ -23,7 +23,8 @@ class Detail extends React.Component<any, any> {
                 year: "",
                 imagePath: "",
             },
-            data: []
+            data: [],
+            redirect: '/' 
         }
         this.getMovieId = this.getMovieId.bind(this);
         this.getMovie = this.getMovie.bind(this);
@@ -73,9 +74,9 @@ class Detail extends React.Component<any, any> {
     }
 
     deleteMovie() {
-        Movie.deleteMovie({id: this.state.data_movie.id }).then((result: any) => {
+        Movie.deleteMovie(this.state.data_movie.id).then((result: any) => {
             if(result.response === true) {
-                console.log(result);
+                this.props.navigate(this.state.redirect);
             }
         })
     }
@@ -95,7 +96,8 @@ class Detail extends React.Component<any, any> {
     }
 
     openModalHapus() {
-        const id = this.state.data_movie.id;
+        const id = this.state.data_movie;
+        console.log(id);
         this.setState({
             isOpen: true,
             id: id
