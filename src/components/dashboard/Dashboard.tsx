@@ -3,6 +3,7 @@ import Navbar from "../etc/Navbar";
 import Carousel from "../etc/Carousel";
 import CardMovie from "../etc/CardMovie";
 import Movie from "../module/Movie";
+import ModalAdd from "../etc/ModalAdd";
 
 class Dashboard extends React.Component <any, any> {
     constructor(props: any) {
@@ -17,12 +18,15 @@ class Dashboard extends React.Component <any, any> {
                 genre: "",
                 year: "",
                 imagePath: "",
-            }
+            },
+            isOpen: false,
 
         }
 
         this.getMovie = this.getMovie.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.openModal = this.openModal.bind(this);
     }
 
     getMovie() {
@@ -39,6 +43,18 @@ class Dashboard extends React.Component <any, any> {
                 list_movie: component
             })
         });
+    }
+
+    closeModal() {
+        this.setState({
+            isOpen: false,
+        })
+    }
+
+    openModal() {
+        this.setState({
+            isOpen: true
+        })
     }
 
     handleSearchChange (event: any) {
@@ -78,12 +94,20 @@ class Dashboard extends React.Component <any, any> {
                     </div>
                     <div className="container" style={{ paddingTop:"60px" }}>
                         <Carousel />
-                        <p className="pt-3">Movies For You</p>
+                        <div className="row mt-4 mb-3">
+                            <div className="col">
+                                <p className="pt-3 text-white">Movies For You</p>
+                            </div>
+                            <div className="col d-flex justify-content-end">
+                                <button className="btn btn-primary align-items-end" onClick={this.openModal} style={{ height: "40px" }}>Tambah Data</button>
+                            </div>
+                        </div>
                         <div className="row row-cols-auto justify-content-center">
                             {this.state.list_movie}
                         </div>
                     </div>
                 </div>
+                <ModalAdd open={this.state.isOpen} closeModal={this.closeModal} />
             </>
         )
     }

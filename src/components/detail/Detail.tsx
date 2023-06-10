@@ -4,19 +4,31 @@ import CardMovie from "../etc/CardMovie";
 import CardDetail from "../etc/CardDetail";
 import Movie from "../module/Movie";
 import { withRouter } from "../etc/WithRouter";
+import ModalHapus from "../etc/ModalHapus";
+import { Link } from "react-router-dom";
 
 class Detail extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
+            isOpen: false,
             list_movie: [],
             data_movie: {
                 id: "",
                 title: "",
-            }
+                desc: "",
+                genre: "",
+                year: "",
+                imagePath: "",
+            },
+            data: []
         }
-        this.getMovieById = this.getMovieById.bind(this);
+        this.getMovieId = this.getMovieId.bind(this);
         this.getMovie = this.getMovie.bind(this);
+        this.closeModalHapus = this.closeModalHapus.bind(this);
+        this.openModalHapus = this.openModalHapus.bind(this);
+        this.deleteMovie = this.deleteMovie.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
 
     getMovie() {
@@ -34,17 +46,68 @@ class Detail extends React.Component<any, any> {
         });
     }
 
-    getMovieById() {
-        const dataMovie = this.props.location.state.data;
-        this.setState({
-            data_movie: dataMovie
+    getMovieId() {
+        const dataMovie = this.props.location.state;
+        // this.setState({
+        //     data_movie: dataMovie
+        // })
+        Movie.getMovieById({id: this.props.location.state.data.id}).then((result:any) => {
+            if(result.response === true) {
+                console.log(result);
+                this.setState({
+                    data_movie: {
+                        id: result.data[0].id,
+                        title: result.data[0].title,
+                        desc: result.data[0].desc,
+                        genre: result.data[0].genre,
+                        year: result.data[0].year,
+                        imagePath: result.data[0].imagePath
+                    }
+                })
+            }   
         })
     }
 
+    deleteMovie() {
+        const idMovie =  this.props.location.state.data.id
+        Movie.deleteMovie({id: this.props.location.state.data.id }).then((result: any) => {
+            const updateData = this.state.data.filter((index: any) => index.idMovie ==! idMovie);
+            if(result.response === true) {
+               this.closeModalHapus();
+               this.setState({data_movie: updateData})
+            }
+        })
+    }
+
+    handleDelete(i: any) {
+        const fil = this.state.deleteMovie.filter((index: any) => index ==! i);
+
+        this.setState({
+            deleteMovie: fil
+        })
+    }
+
+
     componentDidMount(): void {
         this.getMovie();
-        this.getMovieById();
+        this.getMovieId();
     }
+
+    openModalHapus() {
+        const id = this.getMovieId;
+        this.setState({
+            isOpen: true,
+            id: id
+        })
+    }
+
+    closeModalHapus() {
+        this.setState({
+            isOpen: false,
+        })
+    }
+
+
 
     render(): React.ReactNode {
         return (
@@ -62,7 +125,7 @@ class Detail extends React.Component<any, any> {
                             <p style={{ color: "#737174" }}>{this.state.data_movie.desc}</p>
                             <div className="d-flex align-self-end text-white text-end">
                                 <button className="btn btn-primary fs-7">EDIT</button>
-                                <button className="btn btn-danger ms-2 fs-7">HAPUS</button>
+                                <button className="btn btn-danger ms-2 fs-7" onClick={this.openModalHapus}>HAPUS</button>
                             </div>
                         </div>
                     </div>
@@ -73,6 +136,7 @@ class Detail extends React.Component<any, any> {
                         </div>
                     </div>
                 </div>
+                <ModalHapus open={this.state.isOpen} closeModal={this.closeModalHapus} hapus={this.deleteMovie}/>
             </>
         )
     }
