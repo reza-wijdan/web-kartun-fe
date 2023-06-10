@@ -4,6 +4,7 @@ import Carousel from "../etc/Carousel";
 import CardMovie from "../etc/CardMovie";
 import Movie from "../module/Movie";
 import ModalAdd from "../etc/ModalAdd";
+import Loading from "../etc/Loading";
 
 class Dashboard extends React.Component <any, any> {
     constructor(props: any) {
@@ -20,7 +21,7 @@ class Dashboard extends React.Component <any, any> {
                 imagePath: "",
             },
             isOpen: false,
-
+            loading: true,
         }
 
         this.getMovie = this.getMovie.bind(this);
@@ -40,7 +41,8 @@ class Dashboard extends React.Component <any, any> {
                 )
             })
             this.setState({
-                list_movie: component
+                list_movie: component,
+                loading: false,
             })
         });
     }
@@ -88,6 +90,7 @@ class Dashboard extends React.Component <any, any> {
     render(): React.ReactNode {
         return (
             <>
+            <Loading show={this.state.loading} />
                 <div className="">
                     <div className="fixed-top">
                         <Navbar handleChange={this.handleSearchChange} title={this.state.query}/>
@@ -102,7 +105,7 @@ class Dashboard extends React.Component <any, any> {
                                 <button className="btn btn-primary align-items-end" onClick={this.openModal} style={{ height: "40px" }}>Tambah Data</button>
                             </div>
                         </div>
-                        <div className="row row-cols-auto justify-content-center">
+                        <div className="row row-cols-lg-6 row-cols-sm-2 row-cols-md-3">
                             {this.state.list_movie}
                         </div>
                     </div>

@@ -13,7 +13,8 @@ class ModalAdd extends React.Component<any, any> {
                 genre: "",
                 year: "",
                 imagePath: ""
-            }
+            },
+            loading: false
         }
 
         this.closeModal = this.closeModal.bind(this);
@@ -92,10 +93,15 @@ class ModalAdd extends React.Component<any, any> {
             year: this.state.data_movie.year,
             imagePath: this.state.data_movie.imagePath,
         }
-        console.log(data);
 
         Movie.addMovie(data).then((result: any) => {
-            console.log(result);
+            if(result.response === true) {
+                this.props.closeModal();
+                window.location.reload();
+                this.setState({
+                    loading: true
+                })
+            }
         })
     }
 

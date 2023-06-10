@@ -11,7 +11,7 @@ class Movie {
                 },
                 data: data
             }).then((result) => {
-                console.log(result);
+                res({response: true, data: result.data})
             })
         })
     }
