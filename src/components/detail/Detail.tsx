@@ -6,12 +6,14 @@ import Movie from "../module/Movie";
 import { withRouter } from "../etc/WithRouter";
 import ModalHapus from "../etc/ModalHapus";
 import { Link } from "react-router-dom";
+import ModalEdit from "../etc/ModalEdit";
 
 class Detail extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
             isOpen: false,
+            isOpenEdit: false,
             list_movie: [],
             data_movie: {
                 id: "",
@@ -26,7 +28,9 @@ class Detail extends React.Component<any, any> {
         this.getMovieId = this.getMovieId.bind(this);
         this.getMovie = this.getMovie.bind(this);
         this.closeModalHapus = this.closeModalHapus.bind(this);
+        this.closeModalEdit = this.closeModalEdit.bind(this);
         this.openModalHapus = this.openModalHapus.bind(this);
+        this.openModalEdit = this.openModalEdit.bind(this);
         this.deleteMovie = this.deleteMovie.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
     }
@@ -69,12 +73,9 @@ class Detail extends React.Component<any, any> {
     }
 
     deleteMovie() {
-        const idMovie =  this.props.location.state.data.id
-        Movie.deleteMovie({id: this.props.location.state.data.id }).then((result: any) => {
-            const updateData = this.state.data.filter((index: any) => index.idMovie ==! idMovie);
+        Movie.deleteMovie({id: this.state.data_movie.id }).then((result: any) => {
             if(result.response === true) {
-               this.closeModalHapus();
-               this.setState({data_movie: updateData})
+                console.log(result);
             }
         })
     }
@@ -94,7 +95,7 @@ class Detail extends React.Component<any, any> {
     }
 
     openModalHapus() {
-        const id = this.getMovieId;
+        const id = this.state.data_movie.id;
         this.setState({
             isOpen: true,
             id: id
@@ -104,6 +105,21 @@ class Detail extends React.Component<any, any> {
     closeModalHapus() {
         this.setState({
             isOpen: false,
+        })
+    }
+
+    closeModalEdit() {
+        this.setState({
+            isOpenEdit: false,
+        })
+    }
+
+    openModalEdit() {
+        const data = this.state.data_movie;
+        console.log(data)
+        this.setState({
+            isOpenEdit: true,
+            id: data
         })
     }
 
@@ -124,7 +140,7 @@ class Detail extends React.Component<any, any> {
                             <p className="fs-5 text-white">Description</p>
                             <p style={{ color: "#737174" }}>{this.state.data_movie.desc}</p>
                             <div className="d-flex align-self-end text-white text-end">
-                                <button className="btn btn-primary fs-7">EDIT</button>
+                                <button className="btn btn-primary fs-7" onClick={this.openModalEdit}>EDIT</button>
                                 <button className="btn btn-danger ms-2 fs-7" onClick={this.openModalHapus}>HAPUS</button>
                             </div>
                         </div>
@@ -136,6 +152,7 @@ class Detail extends React.Component<any, any> {
                         </div>
                     </div>
                 </div>
+                <ModalEdit openEdit={this.state.isOpenEdit} closeModal={this.closeModalEdit} title={this.state.data_movie.title} desc={this.state.data_movie.desc} genre={this.state.data_movie.genre} year={this.state.data_movie.year}  id={this.state.data_movie.id}/>
                 <ModalHapus open={this.state.isOpen} closeModal={this.closeModalHapus} hapus={this.deleteMovie}/>
             </>
         )

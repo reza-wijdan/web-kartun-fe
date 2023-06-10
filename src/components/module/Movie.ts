@@ -68,6 +68,22 @@ class Movie {
             })
         })
     }
+
+    static async editMovie(id: any, data: any) {
+        return new Promise((res, rej) => {
+            axios({
+                method: "PUT",
+                url: `/movie/edit/${id}`,
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "multipart/form-data"           
+                },
+                data: data
+            }).then((result) => {
+                res({response: true, data: result.data})
+            })
+        })
+    }
 }
 
 export default Movie;
