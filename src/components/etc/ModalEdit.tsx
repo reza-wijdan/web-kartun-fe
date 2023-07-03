@@ -8,11 +8,11 @@ class ModalEdit extends React.Component<any, any> {
         this.state = {
             isOpenEdit: false,
             data_movie : {
-                id:  this.props.id,
-                title: this.props.title,
-                desc: this.props.desc,
-                genre: this.props.genre,
-                year: this.props.year,
+                id:  "",
+                title: "",
+                desc: "",
+                genre: "",
+                year: "",
                 imagePath: ""
             },
             loading: false
@@ -27,33 +27,37 @@ class ModalEdit extends React.Component<any, any> {
     }
 
     handleTitle(e: any) {
-        this.setState((prevState: { data_movie: any; }) => ({
+        this.setState((prevState: any) => ({
             data_movie: {
-                ...prevState.data_movie,
+                ...prevState.data_movie.title,
                 title: e.target.value
             }
+            // const newData = prevState.data_movie.title !== this.state.data_movie.title ? prevState.data_movie.title : "";
+            // return {
+            //     title: newData + e.target.value
+            // }
         }))
     }
     handleDesc(e: any) {
-        this.setState((prevState: { data_movie: any; }) => ({
+        this.setState((prevState: any) => ({
             data_movie: {
-                ...prevState.data_movie,
+                ...prevState.data_movie.desc,
                 desc: e.target.value
             }
         }))
     }
     handleGenre(e: any) {
-        this.setState((prevState: { data_movie: any; }) => ({
+        this.setState((prevState: any) => ({
             data_movie: {
-                ...prevState.data_movie,
+                ...prevState.data_movie.genre,
                 genre: e.target.value
             }
         }))
     }
     handleYear(e: any) {
-        this.setState((prevState: { data_movie: any; }) => ({
+        this.setState((prevState: any) => ({
             data_movie: {
-                ...prevState.data_movie,
+                ...prevState.data_movie.year,
                 year: e.target.value
             }
         }))
@@ -61,9 +65,9 @@ class ModalEdit extends React.Component<any, any> {
 
     handleUploadInput(e:any) {
         console.log(e.target.files[0]);
-        this.setState((prevState: { data_movie: any; }) => ({
+        this.setState((prevState: any) => ({
             data_movie: {
-                ...prevState.data_movie,
+                ...prevState.data_movie.imagePath,
                 imagePath: e.target.files[0]
             }
         }));
@@ -71,14 +75,14 @@ class ModalEdit extends React.Component<any, any> {
 
     handleSimpan() {
         const data = {
-            id: this.state.data_movie.id,
             title: this.state.data_movie.title,
             desc: this.state.data_movie.desc,
             genre: this.state.data_movie.genre,
             year: this.state.data_movie.year,
             imagePath: this.state.data_movie.imagePath,
         }
-        Movie.editMovie(data.id, data).then((result: any) => {
+        console.log(data);
+        Movie.editMovie(this.props.id, data).then((result: any) => {
             if(result.response === true) {
                 this.props.closeModal();
                 window.location.reload();

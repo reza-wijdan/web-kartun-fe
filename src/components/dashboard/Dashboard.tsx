@@ -99,13 +99,13 @@ class Dashboard extends React.Component <any, any> {
                         <Carousel />
                         <div className="row mt-4 mb-3">
                             <div className="col">
-                                <p className="pt-3 text-white">Movies For You</p>
+                                <p className="pt-3 text-white fs-5">Movies For You</p>
                             </div>
                             <div className="col d-flex justify-content-end">
                                 <button className="btn btn-primary align-items-end" onClick={this.openModal} style={{ height: "40px" }}>Tambah Data</button>
                             </div>
                         </div>
-                        <div className="row row-cols-lg-6 row-cols-sm-2 row-cols-md-3">
+                        <div className="row row-cols-lg-6 row-cols-sm-2 row-cols-md-2">
                             {this.state.list_movie}
                         </div>
                     </div>

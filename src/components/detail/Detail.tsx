@@ -154,7 +154,7 @@ class Detail extends React.Component<any, any> {
                         </div>
                     </div>
                 </div>
-                <ModalEdit openEdit={this.state.isOpenEdit} closeModal={this.closeModalEdit} title={this.state.data_movie.title} desc={this.state.data_movie.desc} genre={this.state.data_movie.genre} year={this.state.data_movie.year}  id={this.state.data_movie.id}/>
+                <ModalEdit openEdit={this.state.isOpenEdit} closeModal={this.closeModalEdit} title={this.state.data_movie.title} desc={this.state.data_movie.desc} genre={this.state.data_movie.genre} year={this.state.data_movie.year}  id={this.state.data_movie.id} imagePath={this.state.data_movie.imagePath}/>
                 <ModalHapus open={this.state.isOpen} closeModal={this.closeModalHapus} hapus={this.deleteMovie}/>
             </>
         )
